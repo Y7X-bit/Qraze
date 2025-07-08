@@ -1,0 +1,8 @@
+---
+
+### 🧨 `.gitignore`
+```gitignore
+__pycache__/
+*.pyc
+*.png
+qr_history.txt

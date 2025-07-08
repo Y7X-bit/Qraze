@@ -1,0 +1,6 @@
+customtkinter
+qrcode
+pillow
+opencv-python
+numpy
+pyperclip
