@@ -9,24 +9,35 @@ import webbrowser
 from tkinter import filedialog, messagebox
 from datetime import datetime
 
-# Global App Config
+# App Setup
 app = ctk.CTk()
-app.title("QR Code Tool PRO \U0001F50E")
-app.geometry("640x740")
+app.title("Qraze 💗")
+app.geometry("700x665")
 app.resizable(False, False)
 ctk.set_appearance_mode("dark")
-ctk.set_default_color_theme("blue")
+ctk.set_default_color_theme("dark-blue")
 
-# Custom button style
+# Styles
 button_style = {
     "corner_radius": 20,
-    "fg_color": "#1E1E1E",
-    "hover_color": "#333333",
-    "text_color": "#00FFAA",
-    "font": ("Segoe UI", 14, "bold")
+    "fg_color": "#000000",
+    "hover_color": "#000000",
+    "text_color": "#ffffff",
+    "font": ("Segoe UI", 13, "bold"),
+    "border_color": "#ff3333",
+    "border_width": 2,
+    "height": 40
+}
+entry_style = {
+    "fg_color": "#000000",
+    "border_color": "#ff3333",
+    "border_width": 2,
+    "text_color": "#ffffff",
+    "corner_radius": 20,
+    "height": 40
 }
 
-# Helper Functions
+# Logic
 def save_history(data):
     with open("qr_history.txt", "a") as f:
         f.write(f"[{datetime.now()}] {data}\n")
@@ -62,7 +73,7 @@ def generate_qr():
         img.paste(logo, pos, logo)
 
     img.save(filename)
-    img_preview = ImageTk.PhotoImage(img.resize((260, 260)))
+    img_preview = ImageTk.PhotoImage(img.resize((250, 250)))
     qr_image_label.configure(image=img_preview)
     qr_image_label.image = img_preview
     messagebox.showinfo("Success", f"QR saved as {filename}")
@@ -77,11 +88,9 @@ def read_qr_image():
     filepath = filedialog.askopenfilename(title="Select QR Image")
     if not filepath:
         return
-
     img = cv2.imread(filepath)
     detector = cv2.QRCodeDetector()
     data, bbox, _ = detector.detectAndDecode(img)
-
     if bbox is not None and data:
         pyperclip.copy(data)
         save_history(data)
@@ -94,7 +103,6 @@ def read_qr_image():
 def scan_webcam():
     cap = cv2.VideoCapture(0)
     detector = cv2.QRCodeDetector()
-
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -121,36 +129,36 @@ def show_history():
         content = file.read()
     messagebox.showinfo("QR History", content or "No entries found.")
 
-# UI Layout
-frame = ctk.CTkFrame(app, corner_radius=15)
-frame.pack(padx=30, pady=20, fill="both", expand=True)
-
+# UI
+frame = ctk.CTkFrame(app, corner_radius=15, fg_color="#000000")
+frame.pack(padx=36, pady=28, fill="both", expand=True)
 frame.grid_columnconfigure((0, 1), weight=1, uniform="cols")
 
-row_pad = 10
+row_pad = 12
+col_pad = 14
+
+entry_data = entry_filename = entry_fill = entry_bg = entry_boxsize = entry_border = entry_logo = qr_image_label = None
 
 widgets = [
-    (ctk.CTkLabel(frame, text="\U0001F50E QR Code Generator & Reader PRO", font=("Segoe UI Bold", 20)), 0, 0, 2),
-    (ctk.CTkEntry(frame, width=420, placeholder_text="Enter text or URL"), 1, 0, 2),
-    (ctk.CTkEntry(frame, width=420, placeholder_text="Filename (no extension)"), 2, 0, 2),
-    (ctk.CTkEntry(frame, width=200, placeholder_text="Fill Color"), 3, 0, 1),
-    (ctk.CTkEntry(frame, width=200, placeholder_text="Background Color"), 3, 1, 1),
-    (ctk.CTkEntry(frame, width=200, placeholder_text="Box Size"), 4, 0, 1),
-    (ctk.CTkEntry(frame, width=200, placeholder_text="Border"), 4, 1, 1),
-    (ctk.CTkEntry(frame, width=420, placeholder_text="Logo path (optional)"), 5, 0, 2),
+    (ctk.CTkLabel(frame, text="📎 Qraze - QR Suite", font=("Segoe UI Bold", 18), text_color="white"), 0, 0, 2),
+    (ctk.CTkEntry(frame, width=420, placeholder_text="Enter text or URL", **entry_style), 1, 0, 2),
+    (ctk.CTkEntry(frame, width=420, placeholder_text="Filename (no extension)", **entry_style), 2, 0, 2),
+    (ctk.CTkEntry(frame, width=200, placeholder_text="Fill Color", **entry_style), 3, 0, 1),
+    (ctk.CTkEntry(frame, width=200, placeholder_text="Background Color", **entry_style), 3, 1, 1),
+    (ctk.CTkEntry(frame, width=200, placeholder_text="Box Size", **entry_style), 4, 0, 1),
+    (ctk.CTkEntry(frame, width=200, placeholder_text="Border", **entry_style), 4, 1, 1),
+    (ctk.CTkEntry(frame, width=420, placeholder_text="Logo path (optional)", **entry_style), 5, 0, 2),
     (ctk.CTkButton(frame, text="Browse Logo", command=browse_logo, **button_style), 6, 0, 2),
-    (ctk.CTkButton(frame, text="\U0001F3A8 Generate QR Code", command=generate_qr, **button_style), 7, 0, 2),
-    (ctk.CTkLabel(frame, text=""), 8, 0, 2),
-    (ctk.CTkButton(frame, text="\U0001F5BC️ Decode from Image", command=read_qr_image, **button_style), 9, 0, 2),
-    (ctk.CTkButton(frame, text="\U0001F4F7 Scan via Webcam", command=scan_webcam, **button_style), 10, 0, 2),
-    (ctk.CTkButton(frame, text="\U0001F4DC View QR Scan History", command=show_history, **button_style), 11, 0, 2),
-    (ctk.CTkLabel(frame, text="\U0001F50E Powered by Y7X \U0001F497", font=("Segoe UI", 13)), 12, 0, 2),
+    (ctk.CTkButton(frame, text="🎨 Generate QR", command=generate_qr, **button_style), 7, 0, 1),
+    (ctk.CTkButton(frame, text="🖼 From Image", command=read_qr_image, **button_style), 7, 1, 1),
+    (ctk.CTkButton(frame, text="📷 Webcam Scan", command=scan_webcam, **button_style), 8, 0, 1),
+    (ctk.CTkButton(frame, text="📑 View History", command=show_history, **button_style), 8, 1, 1),
+    (ctk.CTkLabel(frame, text="🔎 Powered by Y7X 💗", font=("Segoe UI", 12), text_color="white"), 9, 0, 2),
+    (ctk.CTkLabel(frame, text="", fg_color="#000000"), 10, 0, 2),
 ]
 
-entry_data, entry_filename, entry_fill, entry_bg, entry_boxsize, entry_border, entry_logo, qr_image_label = None, None, None, None, None, None, None, None
-
 for w, r, c, cs in widgets:
-    w.grid(row=r, column=c, columnspan=cs, pady=row_pad, padx=8, sticky="ew")
+    w.grid(row=r, column=c, columnspan=cs, pady=row_pad, padx=col_pad, sticky="ew")
     if isinstance(w, ctk.CTkEntry):
         if "text or URL" in w._placeholder_text:
             entry_data = w
