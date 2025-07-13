@@ -5,6 +5,7 @@
 
 🔒 Design meets Utility
 Fully customizable | AMOLED Dark UI | Red-Outlined Power ⚡
+Branded with 💗 by [Y7X-bit](https://github.com/Y7X-bit)
 
 <img src="assets/1.png" alt="Qraze Screenshot" width="500"/>
 
