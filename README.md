@@ -1,17 +1,18 @@
-<h1 align="center">✨ Qraze — QR Code Generator & Scanner 🔴</h1>
+<div align="center">
 
-<p align="center">
-  <img src="assets/1.png" alt="Qraze Screenshot" width="500"/>
-</p>
+# ✨ Qraze — QR Code Generator & Scanner
+**🚀 Qraze launch: AMOLED UI, red border magic & all features live**
 
-<p align="center">
-  <b>🔒 Design meets Utility</b><br>
-  <i>Fully customizable | AMOLED Dark UI | Red-Outlined Power ⚡</i>
-</p>
+🔒 Design meets Utility
+Fully customizable | AMOLED Dark UI | Red-Outlined Power ⚡
+
+<img src="assets/1.png" alt="Qraze Screenshot" width="500"/>
+
+</div>
 
 ---
 
-### 🧠 Features
+## 🌟 Features at a Glance
 
 - 🎯 **Generate** QR codes for text, links, or anything!
 - 🎨 Customize **fill**, **background**, **logo**, **box size**, and more.
@@ -22,10 +23,12 @@
 
 ---
 
-### 🚀 Run the App
+## 🖥️ Installation
+
+> Python 3.9 or later required
 
 ```bash
 git clone https://github.com/Y7X-bit/Qraze.git
 cd Qraze
 pip install -r requirements.txt
-python main.py
+python Qraze.py
